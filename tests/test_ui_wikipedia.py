@@ -4,11 +4,11 @@ from pages.main_page import MainPage
 from pages.article_page import ArticlePage
 
 
-@allure.suite("Тест Wikipedia")
-class TestWikipedia:
+@allure.suite("Тест UI_Wikipedia")
+class TestUIWikipedia:
 
     @allure.title("Проверка открытия сайта с приветствием")
-    def test_open_and_check_welcome(self):
+    def test_open_and_check_welcome(self, browser_setup):
         main_page = MainPage()
 
         main_page.open_site()
@@ -47,6 +47,5 @@ class TestWikipedia:
     @allure.title("Проверка, что пользователь не авторизован")
     def test_user_not_logged_in(self, browser_setup):
         main_page = MainPage()
-
         main_page.open_site()
         main_page.check_user_not_logged_in('Войти')
