@@ -1,33 +1,46 @@
-from selene import browser
-from .base_page import BasePage
+from selene import browser, have, be
+from selene.support.shared.jquery_style import s
 import allure
 
 
-class MainPage(BasePage):
+class MainPage:
     search_input = '#searchInput'
     search_button = '#searchButton'
     page_content = 'body'
     english_link = 'a[lang="en"]'
+    no_results_message = 'p.mw-search-nonefound'
+    search_suggestions = '.suggestions-results'
+    login_link = '#pt-login'
 
 
     @allure.step("Открыть сайт Wikipedia")
     def open_site(self):
-        browser.open('https://ru.wikipedia.org')
+        browser.open('/')
 
     @allure.step("Поиск приветственной фразы")
     def check_welcome_text(self, text):
-        self.should_see_text(self.page_content, text)
+        s(self.page_content).should(have.text(text))
 
     @allure.step("Поиск текста '{text}'")
     def search(self, text):
-        self.type(self.search_input, text)
-        self.click(self.search_button)
+        s(self.search_input).type(text)
+        s(self.search_button).click()
 
     @allure.step("Переключение на Английскую версию сайта")
     def switch_to_english(self):
-        self.scroll_to_bottom()
-        self.click(self.english_link)
+        browser.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        s(self.english_link).click()
 
     @allure.step("Проверить что пользователь не авторизован")
-    def check_user_not_logged_in(self, text):
-        self.should_see_text(self.page_content, text)
+    def check_user_not_logged_in(self):
+        s(self.login_link).should(be.visible)
+        s(self.login_link).should(have.text('Войти'))
+
+    @allure.step("Проверить сообщение 'Соответствий запросу не найдено'")
+    def check_no_results_message(self):
+        s(self.no_results_message).should(be.visible)
+        s(self.no_results_message).should(have.text('Соответствий запросу не найдено'))
+
+    @allure.step("Проверить что элемент виден")
+    def should_see(self, locator):
+        s(locator).should(be.visible)

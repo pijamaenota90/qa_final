@@ -34,6 +34,7 @@ def browser_setup():
     browser.config.driver = driver
     browser.config.window_width = 1920
     browser.config.window_height = 1080
+    browser.config.base_url = "https://ru.wikipedia.org"
     try:
         yield browser
     finally:
@@ -49,7 +50,6 @@ load_dotenv()
 def api_client():
     client = WikipediaAPIClient()
     yield client
-    # Автоматически выходим после теста
     if client.is_logged_in:
         client.logout()
 

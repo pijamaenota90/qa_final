@@ -28,7 +28,6 @@ class WikipediaAPIClient:
         )
         token_data = token_response.json()
         login_token = token_data["query"]["tokens"]["logintoken"]
-
         login_data = {
             "action": "login",
             "lgname": username,
@@ -36,11 +35,9 @@ class WikipediaAPIClient:
             "lgtoken": login_token,
             "format": "json"
         }
-
         response = self.session.post(self.api_url, data=login_data)
         result = response.json()
 
-        # 3. Проверяем результат
         if result.get("login", {}).get("result") == "Success":
             self.is_logged_in = True
             self.username = username
@@ -51,26 +48,9 @@ class WikipediaAPIClient:
             print(f" Ошибка входа: {error}")
             return False
 
-    def logout(self) -> bool:
-
-        if not self.is_logged_in:
-            return True
-        response = self.session.get(
-            self.api_url,
-            params={"action": "logout", "format": "json"}
-        )
-        if response.json().get("logout", {}).get("result") == "Success":
-            self.is_logged_in = False
-            self.username = None
-            print(" Успешный выход")
-            return True
-        return False
-
     def get_user_info(self) -> dict:
-        """Получить информацию о текущем пользователе"""
         if not self.is_logged_in:
             return {"error": "Not logged in"}
-
         response = self.session.get(
             self.api_url,
             params={
@@ -81,3 +61,22 @@ class WikipediaAPIClient:
             }
         )
         return response.json()
+
+    def logout(self) -> bool:
+
+        if not self.is_logged_in:
+            return True
+        try:
+            response = self.session.get(
+                self.api_url,
+                params={"action": "logout", "format": "json"},
+                verify=False
+            )
+            result = response.json()
+            self.is_logged_in = False
+            self.username = None
+            return result.get("logout", {}).get("result") == "Success"
+        except:
+            self.is_logged_in = False
+            self.username = None
+            return False

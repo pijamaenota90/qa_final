@@ -2,7 +2,7 @@ urllib3
 python-dotenv
 requests
 allure-python-commons
-pytest>=7.2.0
+pytest
 selene>=2.0.0b16
 allure-pytest
 selenium
