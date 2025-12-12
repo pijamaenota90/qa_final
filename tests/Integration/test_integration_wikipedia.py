@@ -8,7 +8,8 @@ from pages.main_page import MainPage
 class TestIntegration:
 
     @allure.title("Вход через API и проверка в UI")
-    def test_api_login_then_ui_check(self, wiki_credentials):
+    @allure.tag('integration')
+    def test_api_login_then_ui_check(self, wiki_credentials, browser_setup):
 
         api_client = WikipediaAPIClient()
         username = wiki_credentials["username"]
@@ -21,8 +22,5 @@ class TestIntegration:
             main_page = MainPage()
             main_page.open_site()
 
-        with allure.step("UI: Проверяем стандартное приветствие"):
+        with allure.step("UI: Проверяем приветствие"):
             main_page.check_welcome_text('Добро пожаловать в Википедию')
-
-        with allure.step("API: Выходим"):
-            api_client.logout()

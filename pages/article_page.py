@@ -1,4 +1,4 @@
-from selene import browser, have, be
+from selene import query, have, be
 from selene.support.shared.jquery_style import s, ss
 import allure
 
@@ -7,8 +7,6 @@ class ArticlePage:
     title = '#firstHeading'
     content = '#mw-content-text'
     table = '#toc'
-    table_section = '#toc span.toctext'
-
 
     @allure.step("Проверить, что заголовок статьи содержит '{expected_text}'")
     def check_title(self, expected_text):
@@ -22,13 +20,15 @@ class ArticlePage:
     def check_article_table_exists(self):
         s(self.table).should(be.visible)
 
-
-    def check_table_sections_exist(self, expected_sections: list):
-        table_elements = ss(self.table_section)
-        actual_texts = [element.text for element in table_elements]
-        for expected_section in expected_sections:
-            expected_clean = expected_section.strip()
-            assert expected_clean in actual_texts
+    def check_article_headings_exist(self, headings: list):
+        for heading in headings:
+            selector = f'h2#{heading}'
+            element = s(selector)
+            element.should(be.visible)
+            actual_text = element.get(query.text) or element.text
+            assert heading in actual_text
+            print(f" Найден заголовок: {heading}")
+        return self
 
 
 

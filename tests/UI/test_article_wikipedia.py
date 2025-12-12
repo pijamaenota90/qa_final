@@ -4,21 +4,31 @@ from pages.main_page import MainPage
 from pages.article_page import ArticlePage
 
 
-@allure.suite("Тест UI_Wikipedia")
-class TestUIWikipedia:
+@allure.suite("Тестирование статей на Википедии")
+class TestUIWikipediaArticle:
 
-    @allure.title("Проверка, что открыта статья со структурой")
+    @allure.title("Проверка, что открыта статья с оглавлением")
+    @allure.tag('UI')
     def test_article_structure(self, browser_setup):
+
         main_page = MainPage()
         article_page = ArticlePage()
-        main_page.open_site()
-        main_page.search('Наука')
-        article_page.check_article_table_exists()
+        with allure.step("Открываем главную страницу"):
+            main_page.open_site()
+        with allure.step("Ищем статью"):
+            main_page.search('Италия')
+        with allure.step("Проверяем наличие оглавления"):
+            article_page.check_article_table_exists()
 
     @allure.title("Проверка, что в статье присутствуют указанные заголовки")
+    @allure.tag('UI')
     def test_article_table_elements(self, browser_setup):
+
         main_page = MainPage()
         article_page = ArticlePage()
-        main_page.open_site()
-        main_page.search('Наука')
-        article_page.check_table_sections_exist(['История', 'Учёные'])
+        with allure.step("Открываем главную страницу"):
+            main_page.open_site()
+        with allure.step("Ищем статью"):
+            main_page.search('Италия')
+        with allure.step("Проверяем наличие заголовков"):
+            article_page.check_article_headings_exist(['История'])

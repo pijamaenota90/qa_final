@@ -15,7 +15,7 @@ class MainPage:
 
     @allure.step("Открыть сайт Wikipedia")
     def open_site(self):
-        browser.open('/')
+        browser.open('https://ru.wikipedia.org')
 
     @allure.step("Поиск приветственной фразы")
     def check_welcome_text(self, text):

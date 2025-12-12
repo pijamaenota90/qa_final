@@ -15,13 +15,21 @@ SELENOID_URL=selenoid.autotests.cloud
 
 #### Команды для запуска тестов:
 
-- Прогон всех тестов   
+- Запуск всех тестов   
 ```
 pytest tests
 ```
-- Запуск конкретного теста
+- Запуск UI тестов
 ```
-pytest tests/<test_file_name>
+pytest tests/UI/<test_file_name>
+```
+- Запуск API тестов
+```
+pytest tests/API/<test_file_name>
+```
+- Запуск интеграционных тестов
+```
+pytest tests/Integration/<test_file_name>
 ```
 - Генерация allure отчета после выполнения тестов   
 ```

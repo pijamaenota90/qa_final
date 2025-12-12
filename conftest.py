@@ -3,13 +3,14 @@ from selenium.webdriver.chrome.options import Options
 from selene import browser
 from utils import attach
 import pytest
-import os
-from dotenv import load_dotenv
-from api.wikipedia_client import WikipediaAPIClient
+from data import Data
+
+data = Data()
 
 @pytest.fixture(scope='function')
 def browser_setup():
     options = Options()
+    '''
     selenoid_capabilities = {
         "browserName": "chrome",
         "browserVersion": "128.0",
@@ -28,13 +29,15 @@ def browser_setup():
     }
     options.capabilities.update(selenoid_capabilities)
     driver = webdriver.Remote(
-        command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
+        command_executor=data.selenoid_url,
         options=options
     )
+    '''
+    options.add_argument("--window-size=1920,1080")
+    driver = webdriver.Chrome(options=options)
     browser.config.driver = driver
-    browser.config.window_width = 1920
-    browser.config.window_height = 1080
-    browser.config.base_url = "https://ru.wikipedia.org"
+    #browser.config.base_url = "https://ru.wikipedia.org"
+
     try:
         yield browser
     finally:
@@ -44,18 +47,9 @@ def browser_setup():
         attach.add_video(browser)
         browser.quit()
 
-load_dotenv()
-
-@pytest.fixture
-def api_client():
-    client = WikipediaAPIClient()
-    yield client
-    if client.is_logged_in:
-        client.logout()
-
 @pytest.fixture
 def wiki_credentials():
     return {
-        "username": os.getenv("WIKI_USERNAME"),
-        "password": os.getenv("WIKI_PASSWORD")
+        "username": data.WIKI_USERNAME,
+        "password": data.WIKI_PASSWORD
     }
