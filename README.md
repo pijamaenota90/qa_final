@@ -31,14 +31,12 @@ pytest tests/Integration/<test_file_name>
 allure serve allure-results
 ```
 --- 
-### Запуск в [jenkins](https://jenkins.autotests.cloud/job/qa_lesson14/)
-<img src="https://github.com/pijamaenota90/qa_lesson14/raw/main/images/First.png" width="943" height="412">  
 
 ### Описание шагов теста с выводом скриншота и скринкаста
-<img src="https://github.com/pijamaenota90/qa_lesson14/raw/main/images/Second.png" width="943" height="412">
+<img src="https://github.com/pijamaenota90/qa_final/blob/main/images/First_diplom.png" width="943" height="412">
 
 ### Настройка telegram бота для уведомлений о результатах прохождении тестов
-<img src="https://github.com/pijamaenota90/qa_lesson14/raw/main/images/Third.png" width="478" height="422">
+<img src="https://github.com/pijamaenota90/qa_final/blob/main/images/Second_diplom.png" width="478" height="422">
 
 
           
