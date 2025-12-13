@@ -35,8 +35,12 @@ def browser_setup():
     '''
     options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(options=options)
+    '''
     browser.config.driver = driver
-    #browser.config.base_url = "https://ru.wikipedia.org"
+    '''
+    browser.config.window_width = 1920
+    browser.config.window_height = 1080
+    browser.config.base_url = "https://ru.wikipedia.org"
     '''
     try:
         yield browser
