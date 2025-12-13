@@ -1,5 +1,5 @@
-# Дз №14: Учимся быстро разрабатывать готовые проекты для тестовых заданий.
-## UI тесты на сайт https://ru.wikipedia.org/
+# Дипломный проект тестирования сайта https://ru.wikipedia.org/
+## В проекте присутствуют UI, API и интеграционные тесты
 ___
 ### Используемые технологии
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-plain-wordmark.svg" height="40" wigth="40"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jenkins/jenkins-original.svg" height="40" wigth="40"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/selenium/selenium-original.svg" height="40" wigth="40"/><img src="https://avatars.githubusercontent.com/u/5879127?s=200&v=4" height="40" wigth="40"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytest/pytest-original-wordmark.svg" height="40" wigth="40"/>
