@@ -4,14 +4,9 @@ ___
 ### Используемые технологии
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-plain-wordmark.svg" height="40" wigth="40"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jenkins/jenkins-original.svg" height="40" wigth="40"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/selenium/selenium-original.svg" height="40" wigth="40"/><img src="https://avatars.githubusercontent.com/u/5879127?s=200&v=4" height="40" wigth="40"/><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytest/pytest-original-wordmark.svg" height="40" wigth="40"/>
 ### Настройка проекта перед запуском
-Перед запуском тестов необходимо создать файл `.env` в директории `tests`   
-Для файла `.env` заполнить креды для доступа к selenoid.   
-**Например:**
-```
-SELENOID_LOGIN=user1
-SELENOID_PASS=1234
-SELENOID_URL=selenoid.autotests.cloud
-```
+Перед запуском тестов необходимо создать файл `.env` в корне проекта.   
+Для файла `.env` заполнить креды для доступа к selenoid и доступа к Википедии по API.   
+Пример файла, куда необходимо внести свои данные - `.env.example`
 
 #### Команды для запуска тестов:
 

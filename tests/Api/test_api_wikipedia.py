@@ -5,7 +5,7 @@ from api.wikipedia_client import WikipediaAPIClient
 @allure.suite("Тесты API")
 class TestAPIWikipedia:
 
-    @allure.title("Регистрация через API")
+    @allure.title("Регистрация с помощью API")
     @allure.tag('API')
     def test_api_login(self,wiki_credentials):
         client = WikipediaAPIClient()

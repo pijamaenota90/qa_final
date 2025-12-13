@@ -10,7 +10,7 @@ data = Data()
 @pytest.fixture(scope='function')
 def browser_setup():
     options = Options()
-    '''
+
     selenoid_capabilities = {
         "browserName": "chrome",
         "browserVersion": "128.0",
@@ -37,7 +37,7 @@ def browser_setup():
     driver = webdriver.Chrome(options=options)
     browser.config.driver = driver
     #browser.config.base_url = "https://ru.wikipedia.org"
-
+    '''
     try:
         yield browser
     finally:
