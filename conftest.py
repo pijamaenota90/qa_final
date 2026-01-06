@@ -5,8 +5,10 @@ from utils import attach
 import pytest
 from data import Data
 import os
+from dotenv import load_dotenv
 
 data = Data()
+load_dotenv()
 
 @pytest.fixture(scope='function')
 def browser_setup():
