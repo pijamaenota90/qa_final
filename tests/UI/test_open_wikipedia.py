@@ -11,4 +11,4 @@ class TestUIWikipediaOpen:
         with allure.step("Открываем главную страницу"):
             main_page.open_site()
         with allure.step("Проверяем приветствие на Русском"):
-            main_page.check_welcome_text('Добро пожаловать в Википедию')
+            main_page.check_welcome_text()
