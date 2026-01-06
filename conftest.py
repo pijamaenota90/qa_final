@@ -3,23 +3,21 @@ from selenium.webdriver.chrome.options import Options
 from selene import browser
 from utils import attach
 import pytest
+from data import Data
 import os
 from dotenv import load_dotenv
 
-@pytest.fixture(scope='session', autouse=True)
-def load_env():
-    load_dotenv()
+data = Data()
+load_dotenv()
+
+data = Data()  # Создаём экземпляр
 
 @pytest.fixture(scope='function')
 def browser_setup():
-
     browser.config.window_width = 1920
     browser.config.window_height = 1080
     browser.config.timeout = 60
-    browser.config._save_screenshot_on_failure = False
-    browser.config._save_page_source_on_failure = False
     options = Options()
-
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--ignore-ssl-errors')
     options.add_argument('--disable-web-security')
@@ -33,7 +31,6 @@ def browser_setup():
         "selenoid:options": {
             "enableVNC": True,
             "enableVideo": True
-
         },
         "goog:chromeOptions": {
             "args": [
@@ -49,11 +46,8 @@ def browser_setup():
         }
     }
     options.capabilities.update(selenoid_capabilities)
-    login = os.getenv('LOGIN_SELENOID')
-    password = os.getenv('PASSWORD_SELENOID')
-    host = os.getenv('HOST_SELENOID')
     driver = webdriver.Remote(
-        command_executor=f"https://{login}:{password}@{host}/wd/hub",
+        command_executor=data.selenoid_url,
         options=options
     )
     driver.set_page_load_timeout(60)
