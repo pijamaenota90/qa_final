@@ -23,4 +23,4 @@ class TestIntegration:
             main_page.open_site()
 
         with allure.step("UI: Проверяем приветствие"):
-            main_page.check_welcome_text('Добро пожаловать в Википедию')
+            main_page.check_welcome_text()

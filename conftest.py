@@ -4,13 +4,8 @@ from selene import browser
 from utils import attach
 import pytest
 from data import Data
-import os
-from dotenv import load_dotenv
 
 data = Data()
-load_dotenv()
-
-data = Data()  # Создаём экземпляр
 
 @pytest.fixture(scope='function')
 def browser_setup():
@@ -60,6 +55,16 @@ def browser_setup():
     attach.add_html(browser)
     attach.add_video(browser)
     browser.quit()
+
+
+@pytest.fixture(scope='function')
+def local_driver():
+    options = Options()
+    options.add_argument('--window-size=1920,1080')
+    driver = webdriver.Chrome(options=options)
+    driver.set_page_load_timeout(60)
+    yield driver
+    driver.quit()
 
 @pytest.fixture
 def wiki_credentials():

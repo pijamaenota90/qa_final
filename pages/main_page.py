@@ -23,6 +23,11 @@ class MainPage:
         s(self.page_content).should(have.text('Добро пожаловать в Википедию'))
         return self
 
+    @allure.step("Поиск приветственной фразы на Английском")
+    def check_welcome_english_text(self):
+        s(self.page_content).should(have.text('Welcome to Wikipedia'))
+        return self
+
     @allure.step("Поиск текста '{text}'")
     def search(self, text):
         s(self.search_input).type(text)

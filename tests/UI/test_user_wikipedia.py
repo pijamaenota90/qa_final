@@ -10,4 +10,4 @@ class TestUIWikipediaUser:
         with allure.step("Открываем главную страницу"):
             main_page.open_site()
         with allure.step("Проверяем, что пользователь не залогинен"):
-            main_page.check_user_not_logged_in('Войти')
+            main_page.check_user_not_logged_in()
