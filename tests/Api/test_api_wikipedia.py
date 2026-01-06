@@ -1,13 +1,14 @@
-import pytest
 import allure
+
 from api.wikipedia_client import WikipediaAPIClient
+
 
 @allure.suite("Тесты API")
 class TestAPIWikipedia:
 
     @allure.title("Регистрация с помощью API")
     @allure.tag('API')
-    def test_api_login(self,wiki_credentials):
+    def test_api_login(self, wiki_credentials):
         client = WikipediaAPIClient()
         username = wiki_credentials["username"]
         password = wiki_credentials["password"]
@@ -20,7 +21,7 @@ class TestAPIWikipedia:
 
     @allure.title("Получение данных по пользователю по API")
     @allure.tag('API')
-    def test_api_get_user_info(self,wiki_credentials):
+    def test_api_get_user_info(self, wiki_credentials):
         client = WikipediaAPIClient()
         username = wiki_credentials["username"]
         password = wiki_credentials["password"]

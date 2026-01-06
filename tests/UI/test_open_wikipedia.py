@@ -1,6 +1,7 @@
-import pytest
 import allure
+
 from pages.main_page import MainPage
+
 
 @allure.suite("Тест открытия Википедии")
 class TestUIWikipediaOpen:

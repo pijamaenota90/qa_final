@@ -1,11 +1,13 @@
+import pytest
+from selene import browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selene import browser
-from utils import attach
-import pytest
+
 from data import Data
+from utils import attach
 
 data = Data()
+
 
 @pytest.fixture(scope='function')
 def browser_setup():
@@ -65,6 +67,7 @@ def local_driver():
     driver.set_page_load_timeout(60)
     yield driver
     driver.quit()
+
 
 @pytest.fixture
 def wiki_credentials():

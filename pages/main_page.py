@@ -1,6 +1,6 @@
+import allure
 from selene import browser, have, be
 from selene.support.shared.jquery_style import s
-import allure
 
 
 class MainPage:
@@ -11,7 +11,6 @@ class MainPage:
     no_results_message = 'p.mw-search-nonefound'
     search_suggestions = '.suggestions-results'
     login_link = '#pt-login'
-
 
     @allure.step("Открыть сайт Wikipedia")
     def open_site(self):

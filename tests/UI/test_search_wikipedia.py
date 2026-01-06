@@ -1,7 +1,7 @@
-import pytest
 import allure
-from pages.main_page import MainPage
+
 from pages.article_page import ArticlePage
+from pages.main_page import MainPage
 
 
 @allure.suite("Тест UI_Wikipedia")
@@ -38,5 +38,3 @@ class TestUIWikipediaSearch:
             main_page.search('qazwsxedcpl,098765')
         with allure.step("Проверяем, что результата нет"):
             main_page.check_no_results_message()
-
-

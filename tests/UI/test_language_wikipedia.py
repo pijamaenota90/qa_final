@@ -1,6 +1,6 @@
 import allure
-from pages.main_page import MainPage
 
+from pages.main_page import MainPage
 
 
 @allure.suite("Тест переключения языка на википедии")

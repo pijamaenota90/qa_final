@@ -1,6 +1,6 @@
-from selene import query, have, be
-from selene.support.shared.jquery_style import s, ss
 import allure
+from selene import query, have, be
+from selene.support.shared.jquery_style import s
 
 
 class ArticlePage:
@@ -46,6 +46,3 @@ class ArticlePage:
         assert href
         assert 'action=edit' in href or 'edit' in href.lower()
         return self
-
-
-

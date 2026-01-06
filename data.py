@@ -1,7 +1,9 @@
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv()
+
 
 class Data:
     SELENOID_USER = os.getenv('SELENOID_USER')

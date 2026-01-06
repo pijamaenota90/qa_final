@@ -3,6 +3,7 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
 class WikipediaAPIClient:
 
     def __init__(self):

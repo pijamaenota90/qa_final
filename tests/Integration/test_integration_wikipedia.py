@@ -1,6 +1,7 @@
-import pytest
 import allure
+
 from api.wikipedia_client import WikipediaAPIClient
+from models.user import WikiUser
 from pages.main_page import MainPage
 
 
@@ -9,14 +10,12 @@ class TestIntegration:
 
     @allure.title("Вход через API и проверка в UI")
     @allure.tag('integration')
-    def test_api_login_then_ui_check(self, wiki_credentials, browser_setup):
-
+    def test_api_login_then_ui_check(self, browser_setup):
+        user = WikiUser()
         api_client = WikipediaAPIClient()
-        username = wiki_credentials["username"]
-        password = wiki_credentials["password"]
 
-        with allure.step(f"API: Входим как {username}"):
-            api_client.login(username, password)
+        with allure.step(f"API: Входим как {user.username}"):
+            api_client.login(user.username, user.password)
 
         with allure.step("UI: Открываем главную страницу"):
             main_page = MainPage()

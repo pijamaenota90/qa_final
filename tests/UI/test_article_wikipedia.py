@@ -1,7 +1,7 @@
-import pytest
 import allure
-from pages.main_page import MainPage
+
 from pages.article_page import ArticlePage
+from pages.main_page import MainPage
 
 
 @allure.suite("Тестирование статей на Википедии")
