@@ -3,7 +3,9 @@ from selene import browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-from data import Data
+from models.data import Data
+from pages.article_page import ArticlePage
+from pages.main_page import MainPage
 from utils import attach
 
 data = Data()
@@ -70,8 +72,10 @@ def local_driver():
 
 
 @pytest.fixture
-def wiki_credentials():
-    return {
-        "username": data.WIKI_USERNAME,
-        "password": data.WIKI_PASSWORD
-    }
+def main_page(browser_setup):
+    return MainPage()
+
+
+@pytest.fixture
+def article_page(browser_setup):
+    return ArticlePage()

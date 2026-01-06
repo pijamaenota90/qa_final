@@ -1,13 +1,14 @@
+import allure
 import requests
-import urllib3
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from models.data import Data
 
 
 class WikipediaAPIClient:
 
     def __init__(self):
-        self.api_url = "https://ru.wikipedia.org/w/api.php"
+        self.data = Data()
+        self.api_url = self.data.wiki_api_url
         self.session = requests.Session()
         self.session.verify = False
         self.session.headers.update({
@@ -16,8 +17,8 @@ class WikipediaAPIClient:
         self.is_logged_in = False
         self.username = None
 
-    def login(self, username: str, password: str) -> bool:
-
+    @allure.step("Войти на сайт через API")
+    def login(self, username: str, password: str) -> requests.Response:
         token_response = self.session.get(
             self.api_url,
             params={
@@ -27,8 +28,10 @@ class WikipediaAPIClient:
                 "format": "json"
             }
         )
+
         token_data = token_response.json()
         login_token = token_data["query"]["tokens"]["logintoken"]
+
         login_data = {
             "action": "login",
             "lgname": username,
@@ -36,22 +39,18 @@ class WikipediaAPIClient:
             "lgtoken": login_token,
             "format": "json"
         }
+
         response = self.session.post(self.api_url, data=login_data)
         result = response.json()
+        login_info = result.get("login", {})
 
-        if result.get("login", {}).get("result") == "Success":
-            self.is_logged_in = True
-            self.username = username
-            print(f" Успешный вход как {username}")
-            return True
-        else:
-            error = result.get("login", {}).get("result", "Unknown error")
-            print(f" Ошибка входа: {error}")
-            return False
+        if login_info.get("result") == "Success":
+            self.username = login_info.get("lgusername")
 
-    def get_user_info(self) -> dict:
-        if not self.is_logged_in:
-            return {"error": "Not logged in"}
+        return response
+
+    @allure.step("Получить информацию о пользователе")
+    def get_user_info(self) -> requests.Response:
         response = self.session.get(
             self.api_url,
             params={
@@ -61,23 +60,33 @@ class WikipediaAPIClient:
                 "format": "json"
             }
         )
-        return response.json()
 
-    def logout(self) -> bool:
+        return response
 
-        if not self.is_logged_in:
-            return True
-        try:
-            response = self.session.get(
-                self.api_url,
-                params={"action": "logout", "format": "json"},
-                verify=False
-            )
-            result = response.json()
-            self.is_logged_in = False
-            self.username = None
-            return result.get("logout", {}).get("result") == "Success"
-        except:
-            self.is_logged_in = False
-            self.username = None
-            return False
+    @allure.step("Выйти из системы")
+    def logout(self) -> requests.Response:
+        token_response = self.session.get(
+            self.api_url,
+            params={
+                "action": "query",
+                "meta": "tokens",
+                "type": "csrf",
+                "format": "json"
+            }
+        )
+
+        token_data = token_response.json()
+        csrf_token = token_data["query"]["tokens"]["csrftoken"]
+
+        response = self.session.post(
+            self.api_url,
+            data={
+                "action": "logout",
+                "token": csrf_token,
+                "format": "json"
+            }
+        )
+
+        self.username = None
+
+        return response

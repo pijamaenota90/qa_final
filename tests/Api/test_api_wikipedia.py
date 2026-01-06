@@ -1,55 +1,58 @@
 import allure
+import pytest
 
 from api.wikipedia_client import WikipediaAPIClient
+from models.user import WikiUser
 
 
 @allure.suite("Тесты API")
 class TestAPIWikipedia:
 
+    @pytest.fixture
+    def wiki_user(self):
+        return WikiUser()
+
+    @pytest.fixture
+    def api_client(self):
+        return WikipediaAPIClient()
+
+    @pytest.fixture
+    def logged_in_client(self, api_client, wiki_user):
+        api_client.login(wiki_user.username, wiki_user.password)
+        return api_client
+
     @allure.title("Регистрация с помощью API")
     @allure.tag('API')
-    def test_api_login(self, wiki_credentials):
-        client = WikipediaAPIClient()
-        username = wiki_credentials["username"]
-        password = wiki_credentials["password"]
-        with allure.step("Регистрируемся по API"):
-            login_success = client.login(username, password)
+    def test_api_login(self, wiki_user, api_client):
+        response = api_client.login(wiki_user.username, wiki_user.password)
+
         with allure.step("Проверяем правильность регистрации"):
-            assert login_success is True
-            assert client.is_logged_in is True
-            assert client.username == username
+            assert response.status_code == 200
+            result = response.json()
+            login_info = result["login"]
+            assert login_info.get("result") == "Success"
+            username_without_email = wiki_user.username.split('@')[0]
+            assert username_without_email == api_client.username
 
     @allure.title("Получение данных по пользователю по API")
     @allure.tag('API')
-    def test_api_get_user_info(self, wiki_credentials):
-        client = WikipediaAPIClient()
-        username = wiki_credentials["username"]
-        password = wiki_credentials["password"]
-        with allure.step("Регистрируемся по API"):
-            client.login(username, password)
-        with allure.step("Получаем информацию по пользователю"):
-            user_info = client.get_user_info()
+    def test_api_get_user_info(self, logged_in_client, wiki_user):
+        response = logged_in_client.get_user_info()
 
         with allure.step("Проверяем правильность имени пользователя"):
-            assert "query" in user_info
-            assert "userinfo" in user_info["query"]
-            user_data = user_info["query"]["userinfo"]
-            assert "name" in user_data
-            base_username = username.split('@')[0]
-            assert user_data["name"] == base_username
-            print(f" Пользователь: {user_data['name']}")
+            assert response.status_code == 200
+            result = response.json()
+            user_data = result["query"]["userinfo"]
+            username_without_email = wiki_user.username.split('@')[0]
+            assert user_data["name"] == username_without_email
+            assert isinstance(user_data["id"], int)
+            assert "user" in user_data["groups"]
 
     @allure.title("Выход с помощью API")
     @allure.tag('API')
-    def test_api_logout(self, wiki_credentials):
-        client = WikipediaAPIClient()
-        username = wiki_credentials["username"]
-        password = wiki_credentials["password"]
-        with allure.step("Регистрируемся по API"):
-            client.login(username, password)
-        with allure.step("Выход по API"):
-            client.logout()
+    def test_api_logout(self, logged_in_client):
+        response = logged_in_client.logout()
 
         with allure.step("Проверяем корректность выхода"):
-            assert client.is_logged_in is False
-            assert client.username is None
+            assert response.status_code == 200
+            assert logged_in_client.username is None

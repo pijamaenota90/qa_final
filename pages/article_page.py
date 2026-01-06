@@ -9,9 +9,9 @@ class ArticlePage:
     table = '#toc'
     edit_button = '#ca-edit a'
 
-    @allure.step("Проверить, что заголовок статьи содержит '{expected_text}'")
-    def check_title(self, expected_text):
-        s(self.title).should(have.text(expected_text))
+    @allure.step("Проверить, что заголовок статьи содержит 'Москва'")
+    def check_moscow_title(self):
+        s(self.title).should(have.text('Москва'))
         return self
 
     @allure.step("Проверить, что контент статьи есть на странице")
@@ -24,6 +24,7 @@ class ArticlePage:
         s(self.table).should(be.visible)
         return self
 
+    @allure.step("Проверить, что у статьи есть указанный пункт оглавления")
     def check_article_headings_exist(self, headings: list):
         for heading in headings:
             selector = f'h2#{heading}'
