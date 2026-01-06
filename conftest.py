@@ -38,7 +38,7 @@ def browser_setup():
     password = os.getenv('PASSWORD_SELENOID')
     host = os.getenv('HOST_SELENOID')
     driver = webdriver.Remote(
-        command_executor=f"https://{login}:{password}@{host}]/wd/hub",
+        command_executor=f"https://{login}:{password}@{host}/wd/hub",
         options=options
     )
     driver.set_page_load_timeout(60)
