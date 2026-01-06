@@ -23,6 +23,7 @@ def browser_setup():
     options.add_argument('--disable-web-security')
     options.add_argument('--allow-insecure-localhost')
     options.add_argument('--disable-blink-features=AutomationControlled')
+    options.add_argument('--window-size=1920,1080')
 
     selenoid_capabilities = {
         "browserName": "chrome",
@@ -31,6 +32,18 @@ def browser_setup():
             "enableVNC": True,
             "enableVideo": True
 
+        },
+        "goog:chromeOptions": {
+            "args": [
+                "--ignore-certificate-errors",
+                "--ignore-ssl-errors",
+                "--disable-web-security",
+                "--allow-insecure-localhost",
+                "--disable-blink-features=AutomationControlled",
+                "--window-size=1920,1080",
+                "--no-sandbox",
+                "--disable-dev-shm-usage"
+            ]
         }
     }
     options.capabilities.update(selenoid_capabilities)
